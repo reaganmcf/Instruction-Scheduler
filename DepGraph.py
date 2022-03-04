@@ -8,9 +8,10 @@ class DepGraphNode:
         self.instruction = instruction
         self.trueDeps = []
         self.antiDeps = []
+        self.weight = 0
     
     def __str__(self):
-        return f"{str(self.instruction)}"
+        return f"(W={self.weight}) {str(self.instruction)}"
 
 class DepGraph:
     def __init__(self, instructions: List[Instruction]):
@@ -109,6 +110,11 @@ class DepGraph:
         # LOADI
         elif op == OpCode.LOADI:
             # loadI can't have anti deps
+            return []
+
+        # OUTPUTAI
+        elif op == OpCode.OUTPUTAI:
+            # outputAI can't have anti deps
             return []
 
         # LOADAI

@@ -17,8 +17,10 @@ if __name__ == '__main__':
 
     if sys.argv[1] == "-a":
         print("HEURISTIC: Longest Latency Weighted Path", file = sys.stderr)
+        graph = longestLatencyWeightedPath(graph)
     elif sys.argv[1] == "-b":
         print("HEURISTIC: Highest Latency Instruction", file = sys.stderr)
+        graph = highestLatencyInstruction(graph)
     elif sys.argv[1] == "-c":
         print("HEURISTIC: tbd", file = sys.stderr)
         exit(1)
@@ -26,5 +28,6 @@ if __name__ == '__main__':
         print("INVALID HEURISTIC: Use of command:\n schedule -a/-b/-c < ILOC file\n")
         exit(1)
 
+    graph.printDebug()
     # Visualize graph
-    visualize(graph)
+    #visualize(graph)
