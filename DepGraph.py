@@ -106,6 +106,22 @@ class DepGraph:
             field3Dep = self.findAntiRegisterDeps(instruction, instruction.field3)
             if field3Dep:
                 antiDeps = [field3Dep]
+        # LOADI
+        elif op == OpCode.LOADI:
+            # loadI can't have anti deps
+            return []
+
+        # LOADAI
+        elif op == OpCode.LOADAI:
+            field3Dep = self.findAntiRegisterDeps(instruction, instruction.field3)
+            if field3Dep:
+                antiDeps = [field3Dep]
+
+        # STOREAI
+        elif op == OpCode.STOREAI:
+            field3Dep = self.findAntiMemoryDeps(instruction, instruction.field3)
+            if field3Dep:
+                antiDeps = [field3Dep]
         else:
             print(f"findAntiDeps: OpCode {op} not yet implemented")
             exit(1)
@@ -158,6 +174,26 @@ class DepGraph:
                     return ixn
             # LOADAI
             elif ixn.opcode == OpCode.LOADAI: 
+                if ixn.field2 == address:
+                    return ixn
+            else:
+                continue
+
+        return None
+
+    def findAntiMemoryDeps(self, instruction: Instruction, address: int) -> Optional[Instruction]:
+        previousIxns = self.getPreviousInstructions(instruction)
+        if (previousIxns == None):
+            print(f"\t Found no previous anti mem deps for {str(instruction)}")
+            return None
+        
+        for ixn in previousIxns:
+            # LOADAI
+            if ixn.opcode == OpCode.LOADAI:
+                if ixn.field2 == address:
+                    return ixn
+            # OUTPUTAI
+            elif ixn.opcode == OpCode.OUTPUTAI: 
                 if ixn.field2 == address:
                     return ixn
             else:
