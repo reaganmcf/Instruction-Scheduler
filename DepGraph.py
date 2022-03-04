@@ -21,8 +21,10 @@ class DepGraph:
             if (str(ixn.id) in self.nodes.keys()):
                 continue
             trueDeps = self.findTrueDeps(ixn)
+            antiDeps = self.findAntiDeps(ixn)
             node = self.getOrInsertNode(ixn)
             node.trueDeps = trueDeps
+            node.antiDeps = antiDeps
 
     def getOrInsertNode(self, instruction: Instruction) -> DepGraphNode:
         try:
@@ -32,7 +34,7 @@ class DepGraph:
             self.nodes[str(instruction.id)] = DepGraphNode(instruction)
             return self.nodes[str(instruction.id)]
 
-    def findTrueDeps(self, instruction: Instruction) -> List[Instruction]:
+    def findTrueDeps(self, instruction: Instruction) -> List[DepGraphNode]:
         op = instruction.opcode
 
         trueDeps = []
@@ -93,6 +95,24 @@ class DepGraph:
         
         return [self.getOrInsertNode(x) for x in trueDeps]
 
+
+    def findAntiDeps(self, instruction: Instruction) -> List[DepGraphNode]:
+        op = instruction.opcode
+
+        antiDeps = []
+
+        # ADD, SUB, MUL, DIV
+        if op == OpCode.ADD or op == OpCode.SUB or op == OpCode.MUL or op == OpCode.DIV:
+            field3Dep = self.findAntiRegisterDeps(instruction, instruction.field3)
+            if field3Dep:
+                antiDeps = [field3Dep]
+        else:
+            print(f"findAntiDeps: OpCode {op} not yet implemented")
+            exit(1)
+
+        return [self.getOrInsertNode(x) for x in antiDeps]
+
+
     def findTrueRegisterDeps(self, instruction: Instruction, register: int) -> Optional[Instruction]:
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
@@ -146,17 +166,37 @@ class DepGraph:
         return None
 
     def findAntiRegisterDeps(self, instruction: Instruction, register: int) -> Optional[Instruction]: 
-        regDep = None
-        
-        op = instruction.opcode
-        if (op == OpCode.LOADI):
-            # LOADI cannot be an anti dep
-            return None
-        else:
-            print(f"findAntRegisterDep: opcode {op} not yet implemented");
-            exit(1)
+        previousIxns = self.getPreviousInstructions(instruction)
+        if (previousIxns == None):
+            print(f"\t Found no previous ixns for {str(instruction)}")
+            return None 
 
-        return regDep
+        print(f"previous ixns for finding reg deps for {instruction}")
+        for ixn in previousIxns:
+            print(f"\t {str(ixn)}")
+        
+            op = instruction.opcode
+            if op == OpCode.LOADI:
+                # LOADI cannot be an anti dep
+                return None
+            
+            # ADD, SUB, DIV, MUL
+            elif op == OpCode.ADD or \
+                    op == OpCode.SUB or \
+                    op == OpCode.MUL or \
+                    op == OpCode.DIV:
+                        if ixn.field1 == register or ixn.field2 == register:
+                            return ixn
+            
+            # LOADAI
+            elif op == OpCode.LOADAI:
+                if ixn.field1 == register:
+                    return ixn
+            else:
+                print(f"findAntRegisterDep: opcode {op} not yet implemented");
+                exit(1)
+
+        return None
 
     def getPreviousInstructions(self, instruction: Instruction) -> Optional[List[Instruction]]:
         try:
