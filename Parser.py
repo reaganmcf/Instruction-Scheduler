@@ -47,7 +47,7 @@ def parse_loadI(parts: List[str]) -> Instruction:
             OpCode.LOADI, 
             int(parts[1]), 
             int(parts[3][1::]), 
-            0
+            -1
         )
 
     next_instruction_id += 1
@@ -140,7 +140,7 @@ def parse_load_store(parts: List[str]) -> Instruction:
             op,
             int(parts[1][1::]), 
             int(parts[3][1::]), 
-            0
+            -1
         )
 
     next_instruction_id += 1
@@ -161,13 +161,11 @@ def parse_outputAI(parts: List[str]) -> Instruction:
             OpCode.OUTPUTAI, 
             int(parts[1][1::]), 
             int(parts[2]), 
-            0
+            -1
         )
 
     next_instruction_id += 1
     return ixn
-
-
 
 if __name__ == '__main__':
     parse()
