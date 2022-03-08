@@ -109,9 +109,9 @@ class DepGraph:
                 antiDeps = [field3Dep]
         # LOADI
         elif op == OpCode.LOADI:
-            field3Dep = self.findAntiRegisterDeps(instruction, instruction.field3)
-            if field3Dep:
-                antiDeps = [field3Dep]
+            field2Dep = self.findAntiRegisterDeps(instruction, instruction.field2)
+            if field2Dep:
+                antiDeps = [field2Dep]
 
         # OUTPUTAI
         elif op == OpCode.OUTPUTAI:
@@ -244,9 +244,10 @@ class DepGraph:
             print(f"\t {str(ixn)}", file = sys.stderr)
         
             op = ixn.opcode
+            # LOADI
             if op == OpCode.LOADI:
-                # LOADI cannot be an anti dep
-                return None
+                # SKIP
+                continue
             
             # ADD, SUB, DIV, MUL
             elif op == OpCode.ADD or op == OpCode.SUB or op == OpCode.MUL or op == OpCode.DIV:
@@ -260,8 +261,8 @@ class DepGraph:
 
             # STOREAI
             elif op == OpCode.STOREAI:
-                # SKIP
-                continue
+                if ixn.field1 == register:
+                    return ixn
             
             # OUTPUTAI
             elif op == OpCode.OUTPUTAI:
