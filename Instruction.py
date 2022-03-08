@@ -42,5 +42,5 @@ class Instruction:
         elif (self.opcode == OpCode.DIV):
             return f"div r{self.field1}, r{self.field2} => r{self.field3}"
         else:
-            return f"outputAI r{self.field1} {self.field2}"
+            return f"outputAI r{self.field1}, {self.field2}"
 
