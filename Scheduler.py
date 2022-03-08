@@ -40,8 +40,8 @@ def schedule(graph: DepGraph) -> List[Instruction]:
                 finished_nodes.append(active_ixn)
                 active_set = [x for x in active_set if not x.isFinished()]
 
-        print("\t FINISHED_NODES:", file = sys.stderr)
-        print(finished_nodes, file = sys.stderr)
+        #print("\t FINISHED_NODES:", file = sys.stderr)
+        #print(finished_nodes, file = sys.stderr)
 
         # Add id's of finished instructions to list
         for node in finished_nodes:
@@ -62,9 +62,9 @@ def schedule(graph: DepGraph) -> List[Instruction]:
                     all_visited_ids.append(dep.instruction.id)
                     ready_set.append(SchedulerNode(dep))
 
-        print("\t READY SET:", file = sys.stderr)
-        for node in ready_set:
-            print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}", file = sys.stderr)
+        #print("\t READY SET:", file = sys.stderr)
+        #for node in ready_set:
+        #    print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}", file = sys.stderr)
 
         # 4. Use node weight to schedule one of the nodes in the ready set
         candidate: SchedulerNode = None
@@ -79,12 +79,10 @@ def schedule(graph: DepGraph) -> List[Instruction]:
             ready_set = [x for x in ready_set if x.node.id != candidate.node.id]
             active_set.append(candidate)
             instructions.append(candidate.node.instruction)
-        else:
-            print("\t no candidate, moving on...", file = sys.stderr)
 
-        print("\t ACTIVE SET:", file = sys.stderr)
-        for node in active_set:
-            print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}", file = sys.stderr)
+        #print("\t ACTIVE SET:", file = sys.stderr)
+        #for node in active_set:
+        #    print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}", file = sys.stderr)
         
         #max_iters -= 1
         finished = len(active_set) == 0 and len(ready_set) == 0
@@ -115,11 +113,11 @@ if __name__ == '__main__':
         print("INVALID HEURISTIC: Use of command:\n schedule -a/-b/-c < ILOC file\n")
         exit(1)
         
-    graph.printDebug()
+    #graph.printDebug()
 
     # Perform scheduling algorithm
     final_instructions = schedule(graph)
-    print("FINISHED", file = sys.stderr);
+    #print("FINISHED", file = sys.stderr);
     for ixn in final_instructions:
         print(ixn.iloc_str())
 

@@ -92,7 +92,7 @@ class DepGraph:
                 exit(1)
 
             if field2Dep == None:
-                print("findTrueDeps: LOADAI has a mem dep outside of block - ignoring", file = sys.stderr)
+                #print("findTrueDeps: LOADAI has a mem dep outside of block - ignoring", file = sys.stderr)
                 trueDeps = [field1Dep]
             else:
                 trueDeps = [field1Dep, field2Dep]
@@ -155,12 +155,12 @@ class DepGraph:
     def findTrueRegisterDeps(self, instruction: Instruction, register: int) -> Optional[Instruction]:
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
-            print(f"\t Found no previous ixns for {str(instruction)}", file = sys.stderr)
+            #print(f"\t Found no previous ixns for {str(instruction)}", file = sys.stderr)
             return None 
 
-        print(f"previous ixns for finding reg deps for {instruction}", file = sys.stderr)
-        for ixn in previousIxns:
-            print(f"\t {str(ixn)}", file = sys.stderr)
+        #print(f"previous ixns for finding reg deps for {instruction}", file = sys.stderr)
+        #for ixn in previousIxns:
+        #    print(f"\t {str(ixn)}", file = sys.stderr)
 
         for ixn in previousIxns:
             # LOADI
@@ -186,7 +186,7 @@ class DepGraph:
                 # SKIP
                 continue
             else:
-                print(f"findTrueRegisterDeps: opcode {ixn.opcode} not yet implemented")
+                #print(f"findTrueRegisterDeps: opcode {ixn.opcode} not yet implemented")
                 exit(1)
 
         return None
@@ -194,7 +194,7 @@ class DepGraph:
     def findTrueMemoryDeps(self, instruction: Instruction, address: int) -> Optional[Instruction]:
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
-            print(f"\t Found no previous mem deps for {str(instruction)}", file = sys.stderr)
+            #print(f"\t Found no previous mem deps for {str(instruction)}", file = sys.stderr)
             return None
         
         for ixn in previousIxns:
@@ -215,7 +215,7 @@ class DepGraph:
                 # SKIP
                 continue
             else:
-                print(f"findTrueMemoryDeps: opcode {ixn.opcode} not yet implemented")
+                #print(f"findTrueMemoryDeps: opcode {ixn.opcode} not yet implemented")
                 exit(1)
 
         return None
@@ -223,7 +223,7 @@ class DepGraph:
     def findAntiMemoryDeps(self, instruction: Instruction, address: int) -> Optional[Instruction]:
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
-            print(f"\t Found no previous anti mem deps for {str(instruction)}", file = sys.stderr)
+            #print(f"\t Found no previous anti mem deps for {str(instruction)}", file = sys.stderr)
             return None
         
         for ixn in previousIxns:
@@ -244,7 +244,7 @@ class DepGraph:
                 # SKIP
                 continue;
             else:
-                print(f"findAntiMemoryDeps: opcode {ixn.opcode} not yet implemented")
+                #print(f"findAntiMemoryDeps: opcode {ixn.opcode} not yet implemented")
                 exit(1)
 
         return None
@@ -252,12 +252,12 @@ class DepGraph:
     def findAntiRegisterDeps(self, instruction: Instruction, register: int) -> Optional[Instruction]: 
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
-            print(f"\t Found no previous ixns for {str(instruction)}", file = sys.stderr)
+            #print(f"\t Found no previous ixns for {str(instruction)}", file = sys.stderr)
             return None 
 
-        print(f"previous ixns for finding anti reg deps for {instruction}", file = sys.stderr)
+        #print(f"previous ixns for finding anti reg deps for {instruction}", file = sys.stderr)
         for ixn in previousIxns:
-            print(f"\t {str(ixn)}", file = sys.stderr)
+            #print(f"\t {str(ixn)}", file = sys.stderr)
         
             op = ixn.opcode
             # LOADI
