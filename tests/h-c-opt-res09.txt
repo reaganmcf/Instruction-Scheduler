@@ -4,4 +4,4 @@
 24
 49
 512
-Executed 59 instructions and 59 operations in 76 cycles.
+Executed 59 instructions and 59 operations in 66 cycles.
