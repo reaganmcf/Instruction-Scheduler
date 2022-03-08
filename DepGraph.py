@@ -163,7 +163,11 @@ class DepGraph:
             # STOREAI
             elif ixn.opcode == OpCode.STOREAI:
                 # SKIP
-                continue;
+                continue
+            # OUTPUTAI
+            elif ixn.opcode == OpCode.OUTPUTAI:
+                # SKIP
+                continue
             else:
                 print(f"findTrueRegisterDeps: opcode {ixn.opcode} not yet implemented")
                 exit(1)
