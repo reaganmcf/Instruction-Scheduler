@@ -1,0 +1,3 @@
+860
+-1103101952
+Executed 43 instructions and 43 operations in 93 cycles.

@@ -1,0 +1,7 @@
+3
+8
+15
+24
+49
+512
+Executed 59 instructions and 59 operations in 167 cycles.

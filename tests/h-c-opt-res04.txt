@@ -1,0 +1,3 @@
+-39992
+45
+Executed 41 instructions and 41 operations in 67 cycles.

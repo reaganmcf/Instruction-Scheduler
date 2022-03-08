@@ -1,0 +1,4 @@
+5920
+14850
+2061500416
+Executed 82 instructions and 82 operations in 109 cycles.

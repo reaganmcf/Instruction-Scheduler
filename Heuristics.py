@@ -1,5 +1,6 @@
 from DepGraph import DepGraph, DepGraphNode
 from Instruction import Instruction, OpCode
+from random import randint
 
 # NOTE: loadI 1024 => r0 MUST be loaded first no matter what
 # as a result, we give it a huge weighting
@@ -41,9 +42,13 @@ def highestLatencyInstruction(g: DepGraph) -> DepGraph:
     return g
 
 # Heuristic 3:
-# TBD
-def heuristic3(g: DepGraph) -> DepGraph:
-
+# Random!
+def randomWeights(g: DepGraph) -> DepGraph:
+    for node in g.nodes.values():
+        if node.instruction.id == 0 and node.instruction.opcode == OpCode.LOADI:
+            node.weight = 999
+        else:
+            node.weight = randint(1, 5)
     return g
 
 def getLatency(instruction: Instruction) -> int:

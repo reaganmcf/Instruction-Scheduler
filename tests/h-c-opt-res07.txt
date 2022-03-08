@@ -1,0 +1,3 @@
+180
+1602486272
+Executed 31 instructions and 31 operations in 66 cycles.

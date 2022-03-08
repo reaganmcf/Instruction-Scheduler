@@ -4,7 +4,7 @@ from Parser import parse
 from DepGraph import DepGraph, DepGraphNode
 #from Visualizer import visualize
 from Instruction import Instruction
-from Heuristics import longestLatencyWeightedPath, highestLatencyInstruction, getLatency
+from Heuristics import longestLatencyWeightedPath, highestLatencyInstruction, getLatency, randomWeights
 
 class SchedulerNode:
     def __init__(self, node: DepGraphNode):
@@ -21,7 +21,6 @@ def schedule(graph: DepGraph) -> List[Instruction]:
     instructions = []
     
     finished = False
-    #max_iters = 1000
 
     active_set: List[SchedulerNode] = [] 
     ready_set: List[SchedulerNode] = [SchedulerNode(x) for x in graph.getLeaves()]
@@ -110,15 +109,13 @@ if __name__ == '__main__':
         print("HEURISTIC: Highest Latency Instruction", file = sys.stderr)
         graph = highestLatencyInstruction(graph)
     elif sys.argv[1] == "-c":
-        print("HEURISTIC: tbd", file = sys.stderr)
-        exit(1)
+        print("HEURISTIC: Random!", file = sys.stderr)
+        graph = randomWeights(graph)
     else:
         print("INVALID HEURISTIC: Use of command:\n schedule -a/-b/-c < ILOC file\n")
         exit(1)
         
     graph.printDebug()
-    # Visualize graph
-    #visualize(graph)
 
     # Perform scheduling algorithm
     final_instructions = schedule(graph)
