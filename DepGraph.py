@@ -9,6 +9,7 @@ class DepGraphNode:
         self.instruction = instruction
         self.trueDeps = []
         self.antiDeps = []
+        self.ioDeps = []
         self.weight = 0
     
     def __str__(self):
@@ -24,9 +25,11 @@ class DepGraph:
                 continue
             trueDeps = self.findTrueDeps(ixn)
             antiDeps = self.findAntiDeps(ixn)
+            ioDeps = self.findIODeps(ixn)
             node = self.getOrInsertNode(ixn)
             node.trueDeps = trueDeps
             node.antiDeps = antiDeps
+            node.ioDeps = ioDeps
 
     def getOrInsertNode(self, instruction: Instruction) -> DepGraphNode:
         try:
@@ -35,6 +38,19 @@ class DepGraph:
         except:
             self.nodes[str(instruction.id)] = DepGraphNode(instruction)
             return self.nodes[str(instruction.id)]
+
+    def findIODeps(self, instruction: Instruction) -> List[DepGraphNode]:
+        op = instruction.opcode
+        ioDeps = []
+
+        # Only OUTPUTAI can have IO deps
+        if op == OpCode.OUTPUTAI:
+            previousIxns = self.getPreviousInstructions(instruction)
+            for ixn in previousIxns:
+                if ixn.opcode == OpCode.OUTPUTAI:
+                    ioDeps.append(ixn)
+        
+        return [self.getOrInsertNode(x) for x in ioDeps]
 
     def findTrueDeps(self, instruction: Instruction) -> List[DepGraphNode]:
         op = instruction.opcode
@@ -298,6 +314,9 @@ class DepGraph:
         for antiDep in node.antiDeps:
             parents.append(antiDep)
 
+        for ioDep in node.ioDeps:
+            parents.append(ioDep)
+
         return parents
 
     def getDependents(self, node: DepGraphNode) -> List[DepGraphNode]:
@@ -306,7 +325,8 @@ class DepGraph:
         for candidate in self.nodes.values():
             trueDepIds = [x.id for x in candidate.trueDeps]
             antiDepIds = [x.id for x in candidate.antiDeps]
-            if node.id in trueDepIds or node.id in antiDepIds:
+            ioDepIds = [x.id for x in candidate.ioDeps]
+            if node.id in trueDepIds or node.id in antiDepIds or node.id in ioDepIds:
                 deps.append(candidate)
 
         return deps
