@@ -59,13 +59,12 @@ class DepGraph:
         # STOREAI
         elif op == OpCode.STOREAI:
             field1Dep = self.findTrueRegisterDeps(instruction, instruction.field1)
-            field2Dep = self.findTrueRegisterDeps(instruction, instruction.field2)
 
-            if field1Dep == None or field2Dep == None:
-                print("findTrueDeps: STOREAI cannot have a None field1 or field2 dep")
+            if field1Dep == None:
+                print("findTrueDeps: STOREAI cannot have a None field1 dep")
                 exit(1)
 
-            trueDeps = [field1Dep, field2Dep]
+            trueDeps = [field1Dep]
 
         # LOADAI
         elif op == OpCode.LOADAI:
@@ -160,7 +159,6 @@ class DepGraph:
 
                     if ixn.field3 == register:
                         return ixn
-
             else:
                 continue
 
@@ -213,22 +211,19 @@ class DepGraph:
             print(f"\t Found no previous ixns for {str(instruction)}")
             return None 
 
-        print(f"previous ixns for finding reg deps for {instruction}")
+        print(f"previous ixns for finding anti reg deps for {instruction}")
         for ixn in previousIxns:
             print(f"\t {str(ixn)}")
         
-            op = instruction.opcode
+            op = ixn.opcode
             if op == OpCode.LOADI:
                 # LOADI cannot be an anti dep
                 return None
             
             # ADD, SUB, DIV, MUL
-            elif op == OpCode.ADD or \
-                    op == OpCode.SUB or \
-                    op == OpCode.MUL or \
-                    op == OpCode.DIV:
-                        if ixn.field1 == register or ixn.field2 == register:
-                            return ixn
+            elif op == OpCode.ADD or op == OpCode.SUB or op == OpCode.MUL or op == OpCode.DIV:
+                if ixn.field1 == register or ixn.field2 == register:
+                    return ixn
             
             # LOADAI
             elif op == OpCode.LOADAI:
@@ -254,6 +249,17 @@ class DepGraph:
                 leaves.append(node)
 
         return leaves
+
+    def getDependentParents(self, node: DepGraphNode) -> List[DepGraphNode]:
+        parents = []
+
+        for trueDep in node.trueDeps:
+            parents.append(trueDep)
+        
+        for antiDep in node.antiDeps:
+            parents.append(antiDep)
+
+        return parents
 
     def getDependents(self, node: DepGraphNode) -> List[DepGraphNode]:
         deps = []

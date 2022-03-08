@@ -1,6 +1,9 @@
 from DepGraph import DepGraph, DepGraphNode
 from Instruction import Instruction, OpCode
 
+# NOTE: loadI 1024 => r0 MUST be loaded first no matter what
+# as a result, we give it a huge weighting
+
 # Heuristic 1:
 # Longest Latency Weighted Path
 def longestLatencyWeightedPath(g: DepGraph) -> DepGraph:
@@ -20,13 +23,20 @@ def llwp_helper(g: DepGraph, node: DepGraphNode) -> DepGraphNode:
         
         node.weight = maxDependentWeight + ixnWeight
 
+    if node.instruction.id == 0 and node.instruction.opcode == OpCode.LOADI:
+        node.weight = 999
+        return node
+
     return node
 
 # Heuristic 2:
 # Highest Latency Instruction
 def highestLatencyInstruction(g: DepGraph) -> DepGraph:
     for n in g.nodes.values():
-        n.weight = getLatency(n.instruction)
+        if node.instruction.id == 0 and node.instruction.opcode == OpCode.LOADI:
+            node.weight = 999
+        else:
+            n.weight = getLatency(n.instruction)
 
     return g
 
