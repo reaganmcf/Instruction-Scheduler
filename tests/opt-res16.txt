@@ -1,0 +1,1 @@
+Executed 2 instructions and 2 operations in 2 cycles.
