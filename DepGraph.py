@@ -159,8 +159,13 @@ class DepGraph:
 
                     if ixn.field3 == register:
                         return ixn
+            # STOREAI
+            elif ixn.opcode == OpCode.STOREAI:
+                # SKIP
+                continue;
             else:
-                continue
+                print(f"findTrueRegisterDeps: opcode {ixn.opcode} not yet implemented")
+                exit(1)
 
         return None
 
@@ -180,8 +185,16 @@ class DepGraph:
             elif ixn.opcode == OpCode.LOADAI: 
                 if ixn.field2 == address:
                     return ixn
-            else:
+
+            # ADD,SUB,MUL,DIV,LOADI,OUTPUTAI
+            elif ixn.opcode == OpCode.ADD or ixn.opcode == OpCode.SUB or \
+                 ixn.opcode == OpCode.MUL or ixn.opcode == OpCode.DIV or \
+                 ixn.opcode == OpCode.LOADI or ixn.opcode == OpCode.OUTPUTAI:
+                # SKIP
                 continue
+            else:
+                print(f"findTrueMemoryDeps: opcode {ixn.opcode} not yet implemented")
+                exit(1)
 
         return None
 
@@ -200,8 +213,17 @@ class DepGraph:
             elif ixn.opcode == OpCode.OUTPUTAI: 
                 if ixn.field2 == address:
                     return ixn
+
+            # ADD,SUB,MUL,DIV,LOADI,STOREAI
+            elif ixn.opcode == OpCode.ADD or ixn.opcode == OpCode.SUB or \
+                 ixn.opcode == OpCode.MUL or ixn.opcode == OpCode.DIV or \
+                 ixn.opcode == OpCode.LOADI or ixn.opcode == OpCode.STOREAI:
+                
+                # SKIP
+                continue;
             else:
-                continue
+                print(f"findAntiMemoryDeps: opcode {ixn.opcode} not yet implemented")
+                exit(1)
 
         return None
 
@@ -229,6 +251,11 @@ class DepGraph:
             elif op == OpCode.LOADAI:
                 if ixn.field1 == register:
                     return ixn
+
+            # STOREAI
+            elif op == OpCode.STOREAI:
+                # SKIP
+                continue
             else:
                 print(f"findAntRegisterDep: opcode {op} not yet implemented");
                 exit(1)

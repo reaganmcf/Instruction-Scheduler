@@ -124,5 +124,5 @@ if __name__ == '__main__':
     final_instructions = schedule(graph)
     print("----------- FINAL INSTRUCTIONS -----------");
     for ixn in final_instructions:
-        print(ixn)
+        print(ixn.iloc_str())
 

@@ -20,23 +20,27 @@ class Instruction:
         self.field3 = field3
 
     def __str__(self):
+        return f"(id={self.id}) {self.iloc_str()}"
+        
+    def iloc_str(self):
         if (self.opcode == OpCode.LOAD):
-            return f"(id={self.id}) load r{self.field1} => r{self.field2}"
+            return f"load r{self.field1} => r{self.field2}"
         elif (self.opcode == OpCode.LOADI):
-            return f"(id={self.id}) loadI {self.field1} => r{self.field2}"
+            return f"loadI {self.field1} => r{self.field2}"
         elif (self.opcode == OpCode.LOADAI):
-            return f"(id={self.id}) loadAI r{self.field1}, {self.field2} => r{self.field3}"
+            return f"loadAI r{self.field1}, {self.field2} => r{self.field3}"
         elif (self.opcode == OpCode.STORE):
-            return f"(id={self.id}) store r{self.field1} => r{self.field2}"
+            return f"store r{self.field1} => r{self.field2}"
         elif (self.opcode == OpCode.STOREAI):
-            return f"(id={self.id}) storeAI r{self.field1} => r{self.field2}, {self.field3}"
+            return f"storeAI r{self.field1} => r{self.field2}, {self.field3}"
         elif (self.opcode == OpCode.ADD):
-            return f"(id={self.id}) add r{self.field1}, r{self.field2} => r{self.field3}"
+            return f"add r{self.field1}, r{self.field2} => r{self.field3}"
         elif (self.opcode == OpCode.SUB):
-            return f"(id={self.id}) sub r{self.field1}, r{self.field2} => r{self.field3}"
+            return f"sub r{self.field1}, r{self.field2} => r{self.field3}"
         elif (self.opcode == OpCode.MUL):
-            return f"(id={self.id}) mult r{self.field1}, r{self.field2} => r{self.field3}"
+            return f"mult r{self.field1}, r{self.field2} => r{self.field3}"
         elif (self.opcode == OpCode.DIV):
-            return f"(id={self.id}) div r{self.field1}, r{self.field2} => r{self.field3}"
+            return f"div r{self.field1}, r{self.field2} => r{self.field3}"
         else:
-            return f"(id={self.id}) outputAI r{self.field1} {self.field2}"
+            return f"outputAI r{self.field1} {self.field2}"
+
