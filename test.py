@@ -3,6 +3,7 @@ if __name__ == '__main__':
     print("Running test suite...")
 
     print("Making temp dir...", end = " ")
+    system("rm -r ./tests")
     system("mkdir ./tests")
     print(" Done!")
 
@@ -20,10 +21,12 @@ if __name__ == '__main__':
 
         # Get diff
         print("Diff:")
-        system(f"diff ./tests/{results_name}.txt ./tests/opt-{results_name}.txt")
+        system(f"diff ./tests/{results_name}.txt ./tests/opt-{results_name}.txt --color")
+
+        print("----------\n\n")
     
     print("Cleaning up temp dir...", end = " ")
-    system("rm -r tests/")
+    #system("rm -r tests/")
     print("Done !")
 
 
