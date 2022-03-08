@@ -21,7 +21,7 @@ def schedule(graph: DepGraph) -> List[Instruction]:
     instructions = []
     
     finished = False
-    max_iters = 25
+    max_iters = 1000
 
     active_set: List[SchedulerNode] = [] 
     ready_set: List[SchedulerNode] = [SchedulerNode(x) for x in graph.getLeaves()]
