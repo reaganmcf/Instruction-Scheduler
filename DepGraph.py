@@ -262,6 +262,11 @@ class DepGraph:
             elif op == OpCode.STOREAI:
                 # SKIP
                 continue
+            
+            # OUTPUTAI
+            elif op == OpCode.OUTPUTAI:
+                # SKIP
+                continue
             else:
                 print(f"findAntRegisterDep: opcode {op} not yet implemented");
                 exit(1)
