@@ -2,7 +2,7 @@ import sys
 from typing import *
 from Parser import parse
 from DepGraph import DepGraph, DepGraphNode
-from Visualizer import visualize
+#from Visualizer import visualize
 from Instruction import Instruction
 from Heuristics import longestLatencyWeightedPath, highestLatencyInstruction, getLatency
 
