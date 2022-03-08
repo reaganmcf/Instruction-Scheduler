@@ -41,8 +41,8 @@ def schedule(graph: DepGraph) -> List[Instruction]:
                 finished_nodes.append(active_ixn)
                 active_set = [x for x in active_set if not x.isFinished()]
 
-        print("\t FINISHED_NODES:")
-        print(finished_nodes)
+        print("\t FINISHED_NODES:", file = sys.stderr)
+        print(finished_nodes, file = sys.stderr)
 
         # Add id's of finished instructions to list
         for node in finished_nodes:
@@ -63,9 +63,9 @@ def schedule(graph: DepGraph) -> List[Instruction]:
                     all_visited_ids.append(dep.instruction.id)
                     ready_set.append(SchedulerNode(dep))
 
-        print("\t READY SET:")
+        print("\t READY SET:", file = sys.stderr)
         for node in ready_set:
-            print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}")
+            print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}", file = sys.stderr)
 
         # 4. Use node weight to schedule one of the nodes in the ready set
         candidate: SchedulerNode = None
@@ -81,11 +81,11 @@ def schedule(graph: DepGraph) -> List[Instruction]:
             active_set.append(candidate)
             instructions.append(candidate.node.instruction)
         else:
-            print("\t no candidate, moving on...")
+            print("\t no candidate, moving on...", file = sys.stderr)
 
-        print("\t ACTIVE SET:")
+        print("\t ACTIVE SET:", file = sys.stderr)
         for node in active_set:
-            print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}")
+            print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}", file = sys.stderr)
         
         max_iters -= 1
         finished = max_iters == 0
@@ -122,7 +122,7 @@ if __name__ == '__main__':
 
     # Perform scheduling algorithm
     final_instructions = schedule(graph)
-    print("----------- FINAL INSTRUCTIONS -----------");
+    print("FINISHED", file = sys.stderr);
     for ixn in final_instructions:
         print(ixn.iloc_str())
 

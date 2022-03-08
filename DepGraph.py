@@ -1,3 +1,4 @@
+import sys
 from enum import Enum
 from typing import *
 from Instruction import Instruction, OpCode
@@ -75,7 +76,7 @@ class DepGraph:
                 exit(1)
 
             if field2Dep == None:
-                print("findTrueDeps: LOADAI has a mem dep outside of block - ignoring")
+                print("findTrueDeps: LOADAI has a mem dep outside of block - ignoring", file = sys.stderr)
                 trueDeps = [field1Dep]
             else:
                 trueDeps = [field1Dep, field2Dep]
@@ -137,12 +138,12 @@ class DepGraph:
     def findTrueRegisterDeps(self, instruction: Instruction, register: int) -> Optional[Instruction]:
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
-            print(f"\t Found no previous ixns for {str(instruction)}")
+            print(f"\t Found no previous ixns for {str(instruction)}", file = sys.stderr)
             return None 
 
-        print(f"previous ixns for finding reg deps for {instruction}")
+        print(f"previous ixns for finding reg deps for {instruction}", file = sys.stderr)
         for ixn in previousIxns:
-            print(f"\t {str(ixn)}")
+            print(f"\t {str(ixn)}", file = sys.stderr)
 
         for ixn in previousIxns:
             # LOADI
@@ -172,7 +173,7 @@ class DepGraph:
     def findTrueMemoryDeps(self, instruction: Instruction, address: int) -> Optional[Instruction]:
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
-            print(f"\t Found no previous mem deps for {str(instruction)}")
+            print(f"\t Found no previous mem deps for {str(instruction)}", file = sys.stderr)
             return None
         
         for ixn in previousIxns:
@@ -201,7 +202,7 @@ class DepGraph:
     def findAntiMemoryDeps(self, instruction: Instruction, address: int) -> Optional[Instruction]:
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
-            print(f"\t Found no previous anti mem deps for {str(instruction)}")
+            print(f"\t Found no previous anti mem deps for {str(instruction)}", file = sys.stderr)
             return None
         
         for ixn in previousIxns:
@@ -230,12 +231,12 @@ class DepGraph:
     def findAntiRegisterDeps(self, instruction: Instruction, register: int) -> Optional[Instruction]: 
         previousIxns = self.getPreviousInstructions(instruction)
         if (previousIxns == None):
-            print(f"\t Found no previous ixns for {str(instruction)}")
+            print(f"\t Found no previous ixns for {str(instruction)}", file = sys.stderr)
             return None 
 
-        print(f"previous ixns for finding anti reg deps for {instruction}")
+        print(f"previous ixns for finding anti reg deps for {instruction}", file = sys.stderr)
         for ixn in previousIxns:
-            print(f"\t {str(ixn)}")
+            print(f"\t {str(ixn)}", file = sys.stderr)
         
             op = ixn.opcode
             if op == OpCode.LOADI:
@@ -305,7 +306,7 @@ class DepGraph:
 
     def _printDebugHelper(self, node: DepGraphNode, level: int):
         space = "".join([" " for _ in range(level)])
-        print(f"{space}{node}")
+        print(f"{space}{node}", file = sys.stderr)
         for dep in self.getDependents(node):
             self._printDebugHelper(dep, level + 2)
 
