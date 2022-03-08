@@ -32,11 +32,11 @@ def llwp_helper(g: DepGraph, node: DepGraphNode) -> DepGraphNode:
 # Heuristic 2:
 # Highest Latency Instruction
 def highestLatencyInstruction(g: DepGraph) -> DepGraph:
-    for n in g.nodes.values():
+    for node in g.nodes.values():
         if node.instruction.id == 0 and node.instruction.opcode == OpCode.LOADI:
             node.weight = 999
         else:
-            n.weight = getLatency(n.instruction)
+            node.weight = getLatency(node.instruction)
 
     return g
 
