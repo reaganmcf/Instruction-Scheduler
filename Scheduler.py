@@ -21,7 +21,7 @@ def schedule(graph: DepGraph) -> List[Instruction]:
     instructions = []
     
     finished = False
-    max_iters = 1000
+    #max_iters = 1000
 
     active_set: List[SchedulerNode] = [] 
     ready_set: List[SchedulerNode] = [SchedulerNode(x) for x in graph.getLeaves()]
@@ -87,8 +87,8 @@ def schedule(graph: DepGraph) -> List[Instruction]:
         for node in active_set:
             print(f"{node.node.instruction} -- Cycles left: {node.cyclesLeft}", file = sys.stderr)
         
-        max_iters -= 1
-        finished = max_iters == 0
+        #max_iters -= 1
+        finished = len(active_set) == 0 and len(ready_set) == 0
 
     return instructions
 
