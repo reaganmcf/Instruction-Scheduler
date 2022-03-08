@@ -109,8 +109,9 @@ class DepGraph:
                 antiDeps = [field3Dep]
         # LOADI
         elif op == OpCode.LOADI:
-            # loadI can't have anti deps
-            return []
+            field3Dep = self.findAntiRegisterDeps(instruction, instruction.field3)
+            if field3Dep:
+                antiDeps = [field3Dep]
 
         # OUTPUTAI
         elif op == OpCode.OUTPUTAI:
