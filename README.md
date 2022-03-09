@@ -4,6 +4,10 @@ An ILOC Instruction Scheduler for the following heuristics: Longest Latency Weig
 
 You can view more about the actual functionality of each heuristic in `Heuristics.py`.
 
+I initially started this project in C, but after taking a week break and coming back to the C code base it all started falling apart. As a result, I ended up switching over to Python3, and the codebase ended up being much more concise, robust, and I'm confident in the solution I have implemented.
+
+> Note: this **only works with python3**
+
 ## Usage
 
 You can pass in an `.iloc` file (or any type, really - as long as it's valid ILOC code), or can pipe in instructions via `stdin`.
