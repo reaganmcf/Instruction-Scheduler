@@ -28,3 +28,8 @@ python3 Scheduler.py [-a, -b, -c] < [FILE.iloc]
 cat [FILE.iloc] | python3 Scheduler.py [-a, -b, -c]
 ```
 
+The scheduled and optimized instructions are outputted via `stdout` as valid ILOC. Because of this, you are able to redirect directly into the ILOC Simulator like so:
+
+```console
+python3 Scheduler.py -a < myFile.iloc | sim
+```
