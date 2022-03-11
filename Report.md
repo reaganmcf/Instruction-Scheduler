@@ -172,3 +172,21 @@ With 3 different heuristics and 20 benchmarks, that's over 60 times I would have
 ## Results
 
 So, what are the results?
+
+I wrote a simple script to compile the results of each heuristic, and calculate the mean difference in cycles over the unoptimized vs. the optimized result. The results really surprised me.
+
+![](https://i.imgur.com/ouCRuCW.png)
+
+Averaging out the mean cycle differences over all 20 provided benchmarks, and each heuristic, we get the following stats:
+
+1. Optimizing via the Longest Latency Weighted Path heuristic allowed us to achieve a **38% performance improvement** 
+2. Optimizing via the Highest Latency Instruction heuristic allowed us to achieve a **32% performance improvement**
+3. Optimizing via the Randomly assigning weights heuristic allowed us to achieve a **30% performance improvement**
+
+As you can see, even our 3rd heuristic, which is randomly assigning weights, is better because it also builds the dependency graph. The Longest Latency Weighted Path is clearly the winner for all different kinds of programs, but certain programs a different heuristic might beat it.
+
+So, it seems that heuristics can really give you lots of performance, but it's really building the dependency graph that gives you a majority of the performance.
+
+I found it interesting that even the random heuristic was pretty close to the Highest latency instruction heuristic. Goes to show that again, the top-down scheduling dependency graph contributes to most of the performance.
+
+
