@@ -8,6 +8,8 @@ I initially started this project in C, but after taking a week break and coming 
 
 > Note: this **only works with python3**
 
+For an entire report about the project, view the `Report.md` file.
+
 ## Usage
 
 You can pass in an `.iloc` file (or any type, really - as long as it's valid ILOC code), or can pipe in instructions via `stdin`.
@@ -33,3 +35,7 @@ The scheduled and optimized instructions are outputted via `stdout` as valid ILO
 ```console
 python3 Scheduler.py -a < myFile.iloc | sim
 ```
+
+## Results
+
+<img src="./Mean Cycles Comparison.png">
